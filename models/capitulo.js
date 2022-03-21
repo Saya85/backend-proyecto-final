@@ -11,9 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      capitulo.hasOne(models.serie,{
+        foreignKey: 'id',
+        as: 'serie',
+        onDelete: 'set null'
+      })
     }
   }
   capitulo.init({
+    idSerie: DataTypes.id,
     name: DataTypes.STRING,
     description: DataTypes.STRING
   }, {

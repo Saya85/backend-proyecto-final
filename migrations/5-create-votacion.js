@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      idUser: {
+        type: Sequelize.id,
+        onDelete: 'set null',
+        references: { 
+          model: 'users',
+          key: 'id'
+        }
+      },
       voto: {
         type: Sequelize.STRING
       },

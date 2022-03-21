@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      idSerie: {
+        type: Sequelize.id,
+        onDelete: 'set null',
+        references: { 
+          model: 'serie',
+          key: 'id'
+        }
+    },
       name: {
         type: Sequelize.STRING
       },

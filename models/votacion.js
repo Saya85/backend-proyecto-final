@@ -11,9 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      votacion.hasOne(models.User, {
+        foreignKey: 'id',
+        as: 'user',
+        onDelete: 'set null'
+      })
     }
   }
   votacion.init({
+    idUser: DataTypes.id,
     voto: DataTypes.STRING
   }, {
     sequelize,
