@@ -3,11 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+const cors = require("cors");
 var app = express();
+const PORT = process.env.PORT || 3000; //Configuramos puerto heroku
+//Config Cors Options
+var corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -18,6 +26,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors(corsOptions))
+
+app.get('/', (req, res) => {res.send('Bienvenidos a Express');});
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
