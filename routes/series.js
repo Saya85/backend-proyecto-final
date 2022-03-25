@@ -10,4 +10,4 @@ router.get('/:nombre', AuthController.serie);
 router.get('/capitulo/:id', AuthController.capitulo);
 
 
-module.export = router;
+module.exports = router;

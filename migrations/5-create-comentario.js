@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       idUser: {
-        type: Sequelize.id,
+        type: Sequelize.INTEGER,
         onDelete: 'set null',
         references: { 
           model: 'users',
@@ -20,18 +20,18 @@ module.exports = {
         }
       },
       idCapitulo: {
-        type: Sequelize.id,
+        type: Sequelize.INTEGER,
         onDelete: 'set null',
         references: { 
-          model: 'capitulo',
+          model: 'capitulos',
           key: 'id'
         }
       },
       idVotacion: {
-        type: Sequelize.id,
+        type: Sequelize.INTEGER,
         onDelete: 'set null',
         references: { 
-          model: 'votacion',
+          model: 'votacions',
           key: 'id'
         }
       },

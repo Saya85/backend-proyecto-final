@@ -11,17 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      comentario.HasOne(models.user,{
+      comentario.hasOne(models.user,{
         foreignKey: 'id',
         as: "user",
         onDelete: 'set null'
       })
-      comentario.HasOne(models.capitulo,{
+      comentario.hasOne(models.capitulo,{
         foreignKey: 'id',
         as: 'capitulo',
         onDelete: 'set null' 
       })
-      comentario.HasOne(models.votacion,{
+      comentario.hasOne(models.votacion,{
         foreignKey: 'id',
         as: 'votacion',
         onDelete: 'set null' 
@@ -30,9 +30,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   comentario.init({
     comentario: DataTypes.STRING,
-    idCapitulo: DataTypes.id,
-    idVotacion: DataTypes.id,
-    idUser: DataTypes.id
+    idCapitulo: DataTypes.INTEGER,
+    idVotacion: DataTypes.INTEGER,
+    idUser: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'comentario',

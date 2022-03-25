@@ -9,10 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       idSerie: {
-        type: Sequelize.id,
+        type: Sequelize.INTEGER,
         onDelete: 'set null',
         references: { 
-          model: 'serie',
+          model: 'series',
           key: 'id'
         }
     },

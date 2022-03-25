@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       idUser: {
-        type: Sequelize.id,
+        type: Sequelize.INTEGER,
         onDelete: 'set null',
         references: { 
           model: 'users',
