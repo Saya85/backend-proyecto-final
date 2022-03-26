@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { user } = require('../models/user'); //incluyo user model
+const User = require('../models').user; //incluyo user model
 
 module.exports = (req, res, next) => {
 
@@ -21,7 +21,7 @@ module.exports = (req, res, next) => {
                 res.status(500).json({ msg: "Ha ocurrido un problema al decodificar el token", err });
             } else {
                 
-                user.findByPk(decoded.user.id, { include: "roles" }).then(user => {
+                User.findByPk(decoded.user.id).then(user => {
                     //console.log(user.roles);
                     req.user = user;
                     next();

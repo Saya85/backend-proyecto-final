@@ -16,11 +16,17 @@ module.exports = (sequelize, DataTypes) => {
         as: 'user',
         onDelete: 'set null'
       })
+     votacion.hasOne(models.comentario,{
+        foreignKey: 'id',
+        as: 'comentario',
+        onDelete: 'set null' 
+      })
     }
   }
   votacion.init({
     idUser: DataTypes.INTEGER,
-    voto: DataTypes.STRING
+    voto: DataTypes.STRING,
+    idComentario: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'votacion',
