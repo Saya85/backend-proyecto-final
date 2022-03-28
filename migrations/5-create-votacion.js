@@ -9,10 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       idUser: {
-        type: Sequelize.id,
+        type: Sequelize.INTEGER,
         onDelete: 'set null',
         references: { 
           model: 'users',
+          key: 'id'
+        }
+      },
+      idComentario: {
+        type: Sequelize.INTEGER,
+        onDelete: 'set null',
+        references: { 
+          model: 'comentarios',
           key: 'id'
         }
       },

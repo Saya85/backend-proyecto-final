@@ -1,14 +1,14 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('comentarios', {
+    await queryInterface.createTable('Tokens', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      comentario: {
+      token: {
         type: Sequelize.STRING
       },
       idUser: {
@@ -19,14 +19,9 @@ module.exports = {
           key: 'id'
         }
       },
-      idCapitulo: {
-        type: Sequelize.INTEGER,
-        onDelete: 'set null',
-        references: { 
-          model: 'capitulos',
-          key: 'id'
-        }
-      },
+        device: {
+          type: Sequelize.STRING
+        },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -38,6 +33,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('comentarios');
+    await queryInterface.dropTable('Tokens');
   }
 };

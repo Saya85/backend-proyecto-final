@@ -1,28 +1,17 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('capitulos', {
+    await queryInterface.createTable('Roles_users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      idSerie: {
-        type: Sequelize.INTEGER,
-        onDelete: 'set null',
-        references: { 
-          model: 'series',
-          key: 'id'
-        }
-    },
-      name: {
-        type: Sequelize.STRING
+      idRol: {
+        type: Sequelize.INTEGER
       },
-      description: {
-        type: Sequelize.STRING
-      },
-      canon: {
+      idUser: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -36,6 +25,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('capitulos');
+    await queryInterface.dropTable('Roles_users');
   }
 };
