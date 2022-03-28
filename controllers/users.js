@@ -1,6 +1,7 @@
 const User = require('../models').user;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Token = require('../models').Tokens;
 //const authConfig = require('../config/auth');
 
 const UserController = {}; //Create the object controller
@@ -9,32 +10,17 @@ const UserController = {}; //Create the object controller
 
 //REGISTER new user in database
 //create user
-UserController.signUp = (req, res)=> {
-
-    // Encriptamos la contraseña
-    let password = bcrypt.hashSync(req.body.password, Number.parseInt(process.env.AUTH_ROUNDS));
-
-    // Crear un usuario
-    User.create({
-        name: req.body.name,
-        subname: req.body.subname,
-        email: req.body.email,
-        password: password
-    }).then(user => {
-
-        // Creamos el token
-        let token = jwt.sign({ user: user }, process.env.AUTH_SECRET, {
-            expiresIn: process.env.AUTH_EXPIRES
-        });
-
-        res.json({
-            user: user,
-            token: token
-        });
-
-    }).catch(err => {
-        res.status(500).json(err);
-    });
+UserController.signUp =  async (req, res, next) =>{  
+    const {name, subname, email, password} = req.body;
+    const usuario = await User.findOne({where:{email: email}});
+    if(usuario) {
+        res.status(400).json('El usuario ya existe');
+    } else {
+        const cryptPass = bcrypt.hashSync(password,8);
+        const response = await User.create({name: name, subname: subname, email: email, password: cryptPass });
+        const newUser = response.datavalues;
+        res.status(201).json(newUser);
+    }
 
     // // Asigna rol a usuario
     // user_role.create({
@@ -47,29 +33,38 @@ UserController.signUp = (req, res)=> {
 };
 
 
-UserController.update = (req, res)=> {
-
-    // Encriptamos la contraseña
-    let password = bcrypt.hashSync(req.body.password, Number.parseInt(process.env.AUTH_ROUNDS));
-
+UserController.update = async (req, res)=> {
+    const {name, subname, email, password} = req.body;
+    const data = {};
+    if(name) {
+        data.name = name;
+    }
+    if(subname) {
+        data.subname = subname;
+    }
+    if(email) {
+        data.email = email;
+    }
+    if(password) {
+        data.password = bcrypt.hashSync(password,8);
+    }
     // Crear un usuario
-    User.create({
-        name: req.body.name,
-        subname: req.body.subname,
-        email: req.body.email,
-        password: password
+    User.update(data, {
+        where:{id: req.user.id}
     }).then(user => {
+        const tokenBorrado = Token.destroy({
+            where: {
+              token: req.token
+            }
+          });
+          //TODO: Comprobar que funciona bien los tokens
+         if(tokenBorrado === 1) {
+            const token = jwt.sign({id: user.id, name: user.name, email: user.email}, process.env.JWT_SECRET)
+            const response = Token.create({token: token, idUser: user.id, device: null});
+            res.status(200).json(response.dataValues.token);
+         }
 
-        // Creamos el token
-        let token = jwt.sign({ user: user }, process.env.AUTH_SECRET, {
-            expiresIn: process.env.AUTH_EXPIRES
-        });
-
-        res.json({
-            user: user,
-            token: token
-        });
-
+        res.status(200).json({message: 'Usuario modificado correctamente'});
     }).catch(err => {
         res.status(500).json(err);
     });
@@ -88,39 +83,28 @@ UserController.update = (req, res)=> {
 //-------------------------------------------------------------------------------------
 //Login user with database
 //get user
-UserController.signIn = (req, res) =>{
-        let { email, password } = req.body;
-        // Buscar usuario
-        User.findOne({ where: { email: email }
-        }).then(user => {
-            if (!user) {
-                res.status(404).json({ msg: "Usuario con este correo no encontrado" });
-            } else {
-                if (bcrypt.compareSync(password, user.password)) {
-                    // Creamos el token
-                    let token = jwt.sign({ user: user }, process.env.AUTH_SECRET, {
-                        expiresIn: process.env.AUTH_EXPIRES
-                    });
-
-                    res.json({
-                        user: user,
-                        token: token
-                    })
-                } else {
-                    // Unauthorized Access
-                    res.status(401).json({ msg: "Contraseña incorrecta" })
-                }
-            }
-        }).catch(err => {
-            res.status(500).json(err);
-        })
-    };
-
+UserController.signIn = async(req, res, next)=>{
+    try {
+        const { email, password } = req.body
+        const usuario = await User.findOne({where:{email: email}});
+        if (!usuario) { 
+            return res.status(401).json({message: 'email incorrecto'});
+        }
+        const passwordMatch = bcrypt.compare(password, usuario.password);
+        if (!passwordMatch) {
+            return res.status(401).json({message: 'contraseña incorecta'});
+        }
+        const token = jwt.sign({id: usuario.id, name: usuario.name, email: usuario.email}, process.env.JWT_SECRET)
+        const response = await Token.create({token: token, idUser: usuario.id, device: null});
+        res.status(200).json(response.dataValues.token);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+};
 //logout
 
-UserController.logOut = async (req, res, next) => { 
+UserController.logOut =   async (req, res, next) => { 
     try {
-        let token = req.headers.authorization.split(" ")[1];
       const tokenBorrado = await Token.destroy({
         where: {
           token: req.token

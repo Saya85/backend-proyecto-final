@@ -10,7 +10,7 @@ const UserController = require('../controllers/users');
 router.post('/signin', UserController.signIn);
 router.post('/signup', UserController.signUp);
 router.get('/logout', auth, UserController.logOut);
-router.put('/update', UserController.update);
+router.put('/update', auth, UserController.update);
 router.delete('/delete', UserController.delete);
 
 
