@@ -10,7 +10,7 @@ const UserController = {}; //Create the object controller
 
 //REGISTER new user in database
 //create user
-UserController.signUp =  async (req, res, next) =>{  
+UserController.register =  async (req, res, next) =>{  
     const {name, subname, email, password} = req.body;
     const usuario = await User.findOne({where:{email: email}});
     if(usuario) {
@@ -83,7 +83,7 @@ UserController.update = async (req, res)=> {
 //-------------------------------------------------------------------------------------
 //Login user with database
 //get user
-UserController.signIn = async(req, res, next)=>{
+UserController.login = async(req, res, next)=>{
     try {
         const { email, password } = req.body
         const usuario = await User.findOne({where:{email: email}});
@@ -96,14 +96,14 @@ UserController.signIn = async(req, res, next)=>{
         }
         const token = jwt.sign({id: usuario.id, name: usuario.name, email: usuario.email}, process.env.JWT_SECRET)
         const response = await Token.create({token: token, idUser: usuario.id, device: null});
-        res.status(200).json(response.dataValues.token);
+        res.status(200).json({token: response.dataValues.token});
     } catch (error) {
         res.status(400).send(error);
     }
 };
 //logout
 
-UserController.logOut =   async (req, res, next) => { 
+UserController.logout =   async (req, res, next) => { 
     try {
       const tokenBorrado = await Token.destroy({
         where: {

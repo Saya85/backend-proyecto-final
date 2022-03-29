@@ -7,11 +7,11 @@ const UserController = require('../controllers/users');
 
 // End-points CRUD user
 
-router.post('/signin', UserController.signIn);
-router.post('/signup', UserController.signUp);
-router.get('/logout', auth, UserController.logOut);
+router.post('/login', UserController.login);
+router.post('/register', UserController.register);
+router.get('/logout', auth, UserController.logout);
 router.put('/update', auth, UserController.update);
-router.delete('/delete', UserController.delete);
+router.delete('/delete', auth, UserController.delete);
 
 
 
