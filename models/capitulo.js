@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   capitulo.init({
     idSerie: DataTypes.INTEGER,
     name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     canon: DataTypes.INTEGER
   }, {
     sequelize,

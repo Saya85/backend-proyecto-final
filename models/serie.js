@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { Sequelize } = require('.');
 module.exports = (sequelize, DataTypes) => {
   class serie extends Model {
     /**
@@ -15,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   serie.init({
     name: DataTypes.STRING,
-    description: DataTypes.STRING
+    image: DataTypes.STRING,
+    description: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'serie',
