@@ -18,7 +18,7 @@ UserController.register =  async (req, res, next) =>{
     } else {
         const cryptPass = bcrypt.hashSync(password,8);
         const response = await User.create({name: name, subname: subname, email: email, password: cryptPass });
-        const newUser = response.datavalues;
+        const newUser = response.dataValues;
         res.status(201).json(newUser);
     }
 

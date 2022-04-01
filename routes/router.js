@@ -3,14 +3,18 @@ const router = express.Router()
 // Middlewares
 const auth = require('../middlewares/auth');
 //Importamos Routes definidas en views
-//const capitulo = require('./comentarios');
-//const series = require('./series');
+const capitulos = require('./capitulos');
+const series = require('./series');
 const users = require('./users');
+const comentarios = require('./comentarios');
+
+
 
 //Rutas
 router.use('/user', users); //Login and register routes
-//router.use('/series',auth, series); //add auth
-//router.use('/capitulos',auth, capitulo);
+router.use('/series', series); 
+router.use('/capitulos', capitulos);
+router.use('/comentario', auth, comentarios);
 
 
 
