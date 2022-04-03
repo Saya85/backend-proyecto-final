@@ -20,15 +20,19 @@ ComentariosControlers.comentarioUser = async (req, res) => {
   };
 
 //GET comentarios capitulo
-ComentariosControlers.comentarioCapitulo = async(req, res) => {
+/* ComentariosControlers.comentarioCapitulo = async(req, res) => {
+   try {
     const {capitulo} = req.body;
     const comentarios = await Comentario.findAll({
         where:{idCapitulo: capitulo}
     });
 
-      res.status(200).json(comentarios);
+     return res.status(200).json(comentarios);
+   } catch (error) {
+      return res.status(500).json(error)
+   }
   };
-
+ */
 ComentariosControlers.crearComentario = async (req, res) => {
     const {comentario, idCapitulo} = req.body;
     const response = await Comentario.create({comentario: comentario, idUser: req.user.id, idCapitulo: idCapitulo});

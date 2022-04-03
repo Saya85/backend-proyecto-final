@@ -14,7 +14,7 @@ const comentarios = require('./comentarios');
 router.use('/user', users); //Login and register routes
 router.use('/series', series); 
 router.use('/capitulos', capitulos);
-router.use('/comentario', auth, comentarios);
+router.use('/comentario', comentarios);
 
 
 
