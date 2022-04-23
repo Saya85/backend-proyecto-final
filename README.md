@@ -8,7 +8,7 @@ https://github.com/Saya85/frontend-proyecto-final.git
 
 ## Deploy de la aplicacion 🚀
 
-Frontend URL: 
+Frontend URL: https://git.heroku.com/back-foro-anime.git
 
 ### Instalación en local 🔧
 
