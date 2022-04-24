@@ -20,7 +20,7 @@ ComentariosControlers.comentarioUser = async (req, res) => {
   };
 
 //GET comentarios capitulo
-/* ComentariosControlers.comentarioCapitulo = async(req, res) => {
+ ComentariosControlers.comentarioCapitulo = async(req, res) => {
    try {
     const {capitulo} = req.body;
     const comentarios = await Comentario.findAll({
@@ -32,12 +32,13 @@ ComentariosControlers.comentarioUser = async (req, res) => {
       return res.status(500).json(error)
    }
   };
- */
-ComentariosControlers.crearComentario = async (req, res) => {
-    const {comentario, idCapitulo} = req.body;
-    const response = await Comentario.create({comentario: comentario, idUser: req.user.id, idCapitulo: idCapitulo});
-    const newComentario = response.dataValues;
-    res.status(201).json(newComentario);
+ 
+ComentariosControlers.crearComentario = (req, res) => {
+        const {comentario, idCapitulo} = req.body;
+        const response =  Comentario.create({comentario: comentario, idUser: req.user.id, idCapitulo: idCapitulo});
+        const newComentario = response.dataValues;
+        res.status(201).json(newComentario);
+    
 };
 
 ComentariosControlers.borrarComentario = async (req, res, next)=>{
