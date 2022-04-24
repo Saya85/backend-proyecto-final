@@ -87,7 +87,7 @@ UserController.login = async(req, res, next)=>{
     try {
         const { email, password } = req.body
         const usuario = await User.findOne({where:{email: email}});
-        if (!usuario) { 
+        if (usuario===null) { 
             return res.status(401).json({message: 'email incorrecto'});
         }
         const passwordMatch = bcrypt.compare(password, usuario.password);

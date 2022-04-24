@@ -1,12 +1,12 @@
 require('dotenv').config()
 
-const { MYSQL_USER, MYSQL_PASSWORD, DATABASE, MYSQL_HOST, DIALECT } = process.env;
+const { MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_HOST, DIALECT } = process.env;
 
 module.exports ={
   "development": {
     "username":MYSQL_USER,
     "password":MYSQL_PASSWORD,
-    "database":DATABASE,
+    "database":MYSQL_DATABASE,
     "host":MYSQL_HOST,
     "dialect":DIALECT
   },
